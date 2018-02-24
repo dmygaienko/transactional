@@ -19,6 +19,9 @@ import static javax.transaction.Transactional.TxType.SUPPORTS;
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AlfaService {
 
+    @Autowired
+    private AlfaService self;
+
     private final AlfaRepository alfaRepository;
     private final BetaService betaService;
 
@@ -30,7 +33,7 @@ public class AlfaService {
     @Transactional(REQUIRED)
     public void executeRequiredWithRequiresNew() {
         amendAlfa();
-        amendBetaWithAlfaRequiresNew();
+        self.amendBetaWithAlfaRequiresNew();
     }
 
     @Transactional(REQUIRES_NEW)
@@ -41,7 +44,7 @@ public class AlfaService {
     @Transactional(REQUIRED)
     public void executeRequiredWithSupports() {
         amendAlfa();
-        amendBetaWithAlfaSupports();
+        self.amendBetaWithAlfaSupports();
     }
 
     @Transactional(SUPPORTS)
@@ -52,7 +55,7 @@ public class AlfaService {
     @Transactional(REQUIRED)
     public void executeRequiredWithNotSupported() {
         amendAlfa();
-        amendBetaWithAlfaNotSupported();
+        self.amendBetaWithAlfaNotSupported();
     }
 
     @Transactional(NOT_SUPPORTED)

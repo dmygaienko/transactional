@@ -33,14 +33,14 @@ public class AlfaServiceIntegrationTest {
 
     @Before
     public void setUp() {
-        alfaRepository.save(new AlfaEntity(1L, "Alfa"));
-        betaRepository.save(new BetaEntity(1L, "Beta"));
+        alfaRepository.save(new AlfaEntity(1L, "alfa"));
+        betaRepository.save(new BetaEntity(1L, "beta"));
     }
 
     @Test
     public void testExecuteRequiredWithRequiresNew() {
         alfaService.executeRequiredWithRequiresNew();
-        assertEquals("alfa amended", betaRepository.findOne(1L).getName());
+        assertEquals("alfa", betaRepository.findOne(1L).getName());
     }
 
     @Test
@@ -52,6 +52,6 @@ public class AlfaServiceIntegrationTest {
     @Test
     public void testExecuteRequiredWithNotSupported() {
         alfaService.executeRequiredWithNotSupported();
-        assertEquals("alfa amended", betaRepository.findOne(1L).getName());
+        assertEquals("alfa", betaRepository.findOne(1L).getName());
     }
 }
