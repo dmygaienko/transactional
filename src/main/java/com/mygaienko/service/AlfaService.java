@@ -7,13 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
-import static javax.transaction.Transactional.TxType.NOT_SUPPORTED;
-import static javax.transaction.Transactional.TxType.REQUIRED;
-import static javax.transaction.Transactional.TxType.REQUIRES_NEW;
-import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 @Service
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -30,36 +27,47 @@ public class AlfaService {
         this.betaService = betaService;
     }
 
-    @Transactional(REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void executeRequiredWithRequiresNew() {
         amendAlfa();
         self.amendBetaWithAlfaRequiresNew();
     }
 
-    @Transactional(REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void amendBetaWithAlfaRequiresNew() {
         amendBetaWithAlfa();
     }
 
-    @Transactional(REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void executeRequiredWithSupports() {
         amendAlfa();
         self.amendBetaWithAlfaSupports();
     }
 
-    @Transactional(SUPPORTS)
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void amendBetaWithAlfaSupports() {
         amendBetaWithAlfa();
     }
 
-    @Transactional(REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void executeRequiredWithNotSupported() {
         amendAlfa();
         self.amendBetaWithAlfaNotSupported();
     }
 
-    @Transactional(NOT_SUPPORTED)
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void amendBetaWithAlfaNotSupported() {
+        amendBetaWithAlfa();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void executeRequiredWithNested() {
+        amendAlfa();
+        self.amendBetaWithAlfaNested();
+    }
+
+    @Transactional(propagation = Propagation.NESTED)
+    public void amendBetaWithAlfaNested() {
         amendBetaWithAlfa();
     }
 
